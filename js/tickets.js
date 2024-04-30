@@ -25,7 +25,7 @@ $(document).ready(function() {
 
 	//
 	
-		var empDataTable = $('#listTickets').DataTable({
+/* 		var empDataTable = $('#listTickets').DataTable({
 			'processing': true,
 			'serverSide': true,
 			'serverMethod': 'post',
@@ -40,7 +40,7 @@ $(document).ready(function() {
 				{ data: 'title' },
 				{ data: 'department' },
 			]
-		});
+		}); */
 	
 	//
     if($('#listTickets').length) {

@@ -34,12 +34,12 @@ include('inc/header.php');
 						</div>						
 					</div>	
 					<div style="margin-top:10px" class="form-group">                               
-						<div class="col-sm-12 controls">
+<!-- 						<div class="col-sm-12 controls">
 						Admin: salma@tdm.com<br>
 						password:123	<br><br>
 						User: meryem@tdm.com<br>
 						password:123							
-						</div>						
+						</div>	 -->					
 					</div>	
 				</form>   
 			</div>                     

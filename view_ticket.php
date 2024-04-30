@@ -45,11 +45,12 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 					</div>
 					<div class="panel-heading right">
 						<span class="glyphicon glyphicon-time"></span> 
-						<time class="comment-date" datetime="<?php echo date('d-m-Y H:i', strtotime($ticketDetails['date'])); ?>">
-						<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($ticketDetails['date'])); ?>
+						<time class="comment-date" datetime="<?php echo date('d-m-Y H:i'); ?>">
+						<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i'); ?>
 						</time>
 						&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span> <?php echo $ticketDetails['creater']; ?>
-						&nbsp;&nbsp;<span class="glyphicon glyphicon-briefcase"></span> <?php echo $ticketDetails['department']; ?>
+						&nbsp;&nbsp;<span class="glyphicon glyphicon-briefcase"></span> <?php  echo $ticketDetails['department']; ?> 
+					
 					</div>
 				</div>			 
 			</div>
@@ -66,7 +67,7 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 								<span class="glyphicon glyphicon-user"></span> <?php echo $replies['creater']; ?>
 							<?php } ?>
 							&nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span> 
-							<time class="comment-date" datetime="<?php echo date('d-m-Y H:i', strtotime($replies['date'])); ?>"><i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($replies['date'])); ?></time>							
+							<time class="comment-date" datetime="<?php echo date('d-m-Y H:i'); ?>"><i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i'); ?></time>							
 						</div>
 						<div class="panel-body">						
 							<div class="comment-post">
