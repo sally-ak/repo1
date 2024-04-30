@@ -60,13 +60,13 @@ $user = $users->getUserInfo();
 					<th>Subject</th>
 					<!-- <th>Department</th> -->
 					<!-- <th>Name</th> -->
-					<th>Assigned To</th>
+					<th>Department</th>
 					<th>Created By</th>					
 					<th>Created At</th>	
 					<th>Status</th>
 					<th></th>
 					<th></th>
-					<th></th>					
+					<th></th>	
 				</tr>
 			</thead>
 		</table>
