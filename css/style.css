@@ -5,7 +5,14 @@
 }
 .answered {
 	font-size:10px;
-	color:#000000;
-	background-color:#f1ff5b;
-	margin:0px 0px 0px 5px;
+	color:#ffffff;
+	background-color:#00ff11;
+	margin:0px 5px 5px 10px;
+}
+
+#answered {
+	font-size:10px;
+	color:#ffffff;
+	background-color:#00ff11;
+	margin:0px 5px 5px 10px;
 }

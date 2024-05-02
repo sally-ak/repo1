@@ -164,7 +164,8 @@ class Tickets extends Database {
 			$ticketRows[] = $status;
 			$ticketRows[] = '<a href="view_ticket.php?id=' . $ticket["uniqid"] . '" class="btn btn-success btn-xs update">View Ticket</a>';
 			$ticketRows[] = '<button type="button" name="update" id="' . $ticket["id"] . '" class="btn btn-warning btn-xs update" ' . $disbaled . '>Edit</button>';
-			$ticketRows[] = '<button type="button" name="delete" id="' . $ticket["id"] . '" class="btn btn-danger btn-xs delete"  ' . $disbaled . '>Close</button>';
+/* 			$ticketRows[] = '<button type="button" name="delete" id="' . $ticket["id"] . '" class="btn btn-danger btn-xs delete"  ' . $disbaled . '>Close</button>';
+ */			$ticketRows[] = '<button type="button" name="delete" id="' . $ticket["id"] . '" class="btn btn-danger btn-xs delete"  ' . $disbaled . '>Delete</button>';
 			$ticketData[] = $ticketRows;
 		}
 		// Array containing information for DataTables plugin
@@ -181,7 +182,7 @@ class Tickets extends Database {
 	
 	// Method to modify ticket title if it has been answered
  	public function getRepliedTitle($title) {
-		$title = $title.'<span class="answered"> answered </span>';
+		$title = $title.'<span class="answered"> answered ! </span>';
 		return $title; 		
 	}  
 
