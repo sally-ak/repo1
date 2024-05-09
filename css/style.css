@@ -3,16 +3,27 @@
 	font-size:20px;
 	margin-left:10px;
 }
+
 .answered {
-	font-size:10px;
+	font-size:9px;
 	color:#ffffff;
-	background-color:#00ff11;
+	background-color:#00c621;
 	margin:0px 5px 5px 10px;
 }
 
-#answered {
-	font-size:10px;
-	color:#ffffff;
-	background-color:#00ff11;
-	margin:0px 5px 5px 10px;
+.logo {
+    display: inline-block;
+    vertical-align: middle;
 }
+
+.logo img {
+    width: 80px; 
+    height: auto; 
+}
+
+.title {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+

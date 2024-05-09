@@ -8,12 +8,32 @@ include('inc/header.php');
 ?>
 <title>Incident Management System</title>
 <?php include('inc/container.php');?>
+
+<!-- <div class="login-logo"><img src="assets\LOGO.png" alt="Logo Toyota"></div>  -->
+
 <div class="container contact">	
-	<h2>Incident Management System</h2>	
+        <h2>
+            Incident Management System
+			<div class="login-logo"><img src="assets\LOGO.png" alt="Logo Toyota"></div>
+			<style>
+        .login-logo {
+            display: inline-block; 
+            vertical-align: middle; 
+            margin-left: 5px; 
+        }
+
+        .login-logo img {
+            max-width: 80px; 
+            height: auto; 
+        }
+    </style> 
+        </h2>
 	<div class="col-md-6">                    
 		<div class="panel panel-info">
 			<div class="panel-heading" style="background:#00796B;color:white;">
-				<div class="panel-title">User Login</div>                        
+				<div class="panel-title">
+					User Login
+				</div>                        
 			</div> 
 			<div style="padding-top:30px" class="panel-body" >
 				<?php if ($errorMessage != '') { ?>

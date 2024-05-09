@@ -30,9 +30,15 @@ $user = $users->getUserInfo();
 <?php include('inc\container.php');?>
 
 <!-- JS and CSS files for DataTables plugin -->
-<div class="container">	
-	<div class="row home-sections">
-	<h2>Incident Management System</h2>	
+
+<div class="container">
+    <div class="row home-sections">
+        <h2>
+            <div class="logo"><img src="assets\LOGO.png" alt="Logo Toyota"></div>
+            Incident Management System
+        </h2>
+    </div>
+
 	<?php include('menus.php'); ?>		
 	</div> 
 	<div class="">   		

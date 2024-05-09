@@ -15,8 +15,12 @@ $user = $users->getUserInfo();
 <link rel="stylesheet" href="css/style.css" />
 <?php include('inc/container.php');?>
 <div class="container">	
-	<div class="row home-sections">
-	<h2>Incident Management System</h2>	
+<div class="row home-sections">
+        <h2>
+            <div class="logo"><img src="assets\LOGO.png" alt="Logo Toyota"></div>
+            Incident Management System
+        </h2>
+    </div>
 	<?php include('menus.php'); ?>		
 	</div> 
 	
