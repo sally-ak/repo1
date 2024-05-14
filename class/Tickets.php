@@ -115,7 +115,9 @@ class Tickets extends Database {
 		$sqlQuery = "SELECT t.id, t.uniqid, t.title, t.init_msg as message, t.date, t.last_reply, t.resolved, u.name as creater, d.name as department, u.user_type, t.user, t.user_read, t.admin_read
 				FROM hd_tickets t 
 				LEFT JOIN hd_users u ON t.user = u.id 
-				LEFT JOIN hd_departments d ON t.department = d.id $sqlWhere ";
+				LEFT JOIN hd_departments d ON t.department = d.id ";
+		$allRowsSql = $sqlQuery;
+		$sqlQuery .= " $sqlWhere ";
 		//append search conditions to the SQL query
 		if (!empty($_POST["search"]["value"])) {
 			$sqlQuery .= ' (uniqid LIKE "%' . $_POST["search"]["value"] . '%" ';
@@ -129,14 +131,20 @@ class Tickets extends Database {
 		} else {
 			$sqlQuery .= 'ORDER BY t.id DESC ';
 		}
+		$allSqlFiltered = $sqlQuery;
 		//Modify your SQL query to include pagination
 		$sqlQuery .= ' LIMIT ' . $start . ', ' . $length;
 	
 		//Executes the SQL query using the database connection.
 		$result = mysqli_query($this->dbConnect, $sqlQuery);
+		$allResult = mysqli_query($this->dbConnect, $allRowsSql);
+		$allFilteredResult = mysqli_query($this->dbConnect, $allSqlFiltered);
+
 		//Counts the number of rows returned by the SQL query.
 		$numRows = mysqli_num_rows($result);
-	
+		$allRowsNum = mysqli_num_rows($allResult);
+		$allFilteredRowsNum = mysqli_num_rows($allFilteredResult);
+		
 		$ticketData = array();
 		//Iterates over each row returned by the SQL query.
 		while ($ticket = mysqli_fetch_assoc($result)) {
@@ -164,15 +172,14 @@ class Tickets extends Database {
 			$ticketRows[] = $status;
 			$ticketRows[] = '<a href="view_ticket.php?id=' . $ticket["uniqid"] . '" class="btn btn-success btn-xs update">View Ticket</a>';
 			$ticketRows[] = '<button type="button" name="update" id="' . $ticket["id"] . '" class="btn btn-warning btn-xs update" ' . $disbaled . '>Edit</button>';
-/* 			$ticketRows[] = '<button type="button" name="delete" id="' . $ticket["id"] . '" class="btn btn-danger btn-xs delete"  ' . $disbaled . '>Close</button>';
- */			$ticketRows[] = '<button type="button" name="delete" id="' . $ticket["id"] . '" class="btn btn-danger btn-xs delete"  ' . $disbaled . '>Delete</button>';
+			$ticketRows[] = '<button type="button" name="delete" id="' . $ticket["id"] . '" class="btn btn-danger btn-xs delete"  ' . $disbaled . '>Close</button>';
 			$ticketData[] = $ticketRows;
 		}
 		// Array containing information for DataTables plugin
 		$output = array(
 			"draw" => intval($_POST["draw"]),
-			"recordsTotal" => $numRows,
-			"recordsFiltered" => $numRows,
+			"recordsTotal" => $allRowsNum,
+			"recordsFiltered" => $allFilteredRowsNum,
 			"data" => $ticketData
 		);
 		//Encodes the array to JSON and sends to client-side for processing by DataTables plugin.
@@ -182,7 +189,7 @@ class Tickets extends Database {
 	
 	// Method to modify ticket title if it has been answered
  	public function getRepliedTitle($title) {
-		$title = $title.'<span class="answered"> answered ! </span>';
+		$title = $title.'<span class="answered"> answered </span>';
 		return $title; 		
 	}  
 

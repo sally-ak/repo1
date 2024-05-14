@@ -22,12 +22,12 @@
 							<?php $tickets->getDepartments(); ?>
 						</select>						
 					</div>						
-					 <div class="form-group">
+					<!--  <div class="form-group">
 						<label for="user" class="control-label">Assigned to</label>							
 						<select id="user" name="user" class="form-control" placeholder="assigned to">					
-							<?php $users->getUsers(); ?>
+							<?php /* $users->getUsers(); */ ?>
 						</select>						
-					</div> 	
+					</div> 	 -->
 					
 					<div class="form-group">
 						<label for="message" class="control-label">Description</label>							

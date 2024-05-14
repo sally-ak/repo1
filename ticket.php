@@ -51,7 +51,7 @@ $user = $users->getUserInfo();
 					<button type="button" name="add" id="createTicket" class="btn btn-success btn-xs">Create New Incident</button>
 				</div>
 
-				<div class="col-md-2" align="left">	
+				<div class="col-md" align="left" >	
 			<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">					
 				<button type="button" id="dataExport" name="dataExport" value="Export to excel" class="btn btn-success btn-xs">Export To Excel</button>
 			</form>
