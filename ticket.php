@@ -4,7 +4,7 @@ include 'init.php';
 if(!$users->isLoggedIn()) {
 	header("Location: login.php");	
 }
-include('inc\header.php');
+include('inc/header.php');
 $user = $users->getUserInfo();
 ?>
 
@@ -28,7 +28,7 @@ $user = $users->getUserInfo();
 
 
 
-<?php include('inc\container.php');?>
+<?php include('inc/container.php');?>
 
 <!-- JS and CSS files for DataTables plugin -->
 
@@ -80,4 +80,4 @@ $user = $users->getUserInfo();
 	</div>
 	<?php include('add_ticket_model.php'); ?>
 </div>	
-<?php include('inc\footer.php');?>
+<?php include('inc/footer.php');?>
