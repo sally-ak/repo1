@@ -10,6 +10,7 @@ $user = $users->getUserInfo();
 
 <!-- JS and CSS files for DataTables plugin -->
 <title>Incident Management</title>
+
 <script src="js\jquery.dataTables.min.js"></script>
 <script src="js\dataTables.bootstrap.min.js"></script>		
 <link rel="stylesheet" href="css\dataTables.bootstrap.min.css" />

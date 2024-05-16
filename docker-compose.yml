@@ -1,0 +1,9 @@
+version: '2.0'
+services:
+  nginx:
+    image: trafex/php-nginx
+    container_name: php-nginx-debug
+    ports:
+      - "80:8080"
+    volumes:
+      - ~/workspace/code/php/repo1:/var/www/html
