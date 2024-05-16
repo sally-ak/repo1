@@ -2,6 +2,7 @@
 session_start();
 include 'config.php';
 define('HOST', $host);
+define('PORT',$port);
 define('USER', $username);
 define('PASSWORD', $password);
 define('DATABASE', $database);
