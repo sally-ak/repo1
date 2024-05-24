@@ -1,9 +1,9 @@
 <nav class="navbar navbar-inverse" style="background:#00796B;color:#f6f8f9;font-weight:bold;">
 	<div class="container-fluid">		
 		<ul class="nav navbar-nav menus">
-			<li id="ticket"><a href="ticket.php" >Ticket</a></li>
+			<li id="ticket"><a href="ticket.php" >Tickets</a></li>
 			<?php if(isset($_SESSION["admin"])) { ?>
-				<li id="department"><a href="department.php" >Department</a></li>
+				<li id="department"><a href="department.php" >Departments</a></li>
 				<li id="user"><a href="user.php" >Users</a></li>				
 			<?php } ?>						
 		</ul>

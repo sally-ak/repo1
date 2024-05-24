@@ -18,13 +18,13 @@ $user = $users->getUserInfo();
 <script src="js\tickets.js"></script>
 <link rel="stylesheet" href="css\style.css" />
 
-<!-- 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
-<link href='https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
--->
+<!-- sheetJs Library via CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+<!-- sheetJs Styling Library via CDN
+<script src="https://cdn.sheetjs.com/xlsx-0.17.3/package/dist/xlsx.full.min.js"></script> -->
 
+<!-- use version 0.20.2 -->
+<script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 
 
 <?php include('inc\container.php');?>
@@ -53,7 +53,7 @@ $user = $users->getUserInfo();
 
 				<div class="col-md" align="left" >	
 			<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">					
-				<button type="button" id="dataExport" name="dataExport" value="Export to excel" class="btn btn-success btn-xs">Export To Excel</button>
+				<button type="button" id="exportButton" name="dataExport" value="Export to excel" class="btn btn-success btn-xs">Export To Excel</button>
 			</form>
 		</div>
 			</div>
@@ -64,8 +64,6 @@ $user = $users->getUserInfo();
 					<th>S/N</th>
 					<th>Ticket ID</th>
 					<th>Subject</th>
-					<!-- <th>Department</th> -->
-					<!-- <th>Name</th> -->
 					<th>Department</th>
 					<th>Created By</th>					
 					<th>Created At</th>	
@@ -79,4 +77,96 @@ $user = $users->getUserInfo();
 	</div>
 	<?php include('add_ticket_model.php'); ?>
 </div>	
-<?php include('inc\footer.php');?>
+
+<script>
+function exportTableToExcel(listTickets, filename = '') {
+    var tableSelect = document.getElementById(listTickets);
+    var columnsToExport = [0, 1, 2, 3, 4, 5, 6]; // Column indexes to export (0-based)
+
+    // Create a new table element to hold the filtered data
+    var tempTable = document.createElement('table');
+
+    // Clone the headers
+    var header = tableSelect.querySelector('thead').cloneNode(true);
+    var newHeaderRow = document.createElement('tr');
+    columnsToExport.forEach(index => {
+        newHeaderRow.appendChild(header.rows[0].cells[index].cloneNode(true));
+    });
+    tempTable.appendChild(newHeaderRow);
+
+    // Clone the rows
+    var rows = tableSelect.querySelector('tbody').cloneNode(true);
+    Array.from(rows.rows).forEach(row => {
+        var newRow = document.createElement('tr');
+        columnsToExport.forEach(index => {
+            newRow.appendChild(row.cells[index].cloneNode(true));
+        });
+        tempTable.appendChild(newRow);
+    });
+
+    // Generate worksheet from filtered table data
+    var worksheet = XLSX.utils.table_to_sheet(tempTable);
+
+    // Apply styling to the worksheet
+    var range = XLSX.utils.decode_range(worksheet['!ref']);
+    for (var R = range.s.r; R <= range.e.r; ++R) {
+        for (var C = range.s.c; C <= range.e.c; ++C) {
+            var cell_address = { c: C, r: R };
+            var cell_ref = XLSX.utils.encode_cell(cell_address);
+            if (!worksheet[cell_ref]) continue;
+            if (R === 0) {
+                worksheet[cell_ref].s = {
+                    font: { bold: true, color: { rgb: "FFFFFF" } },
+                    fill: { fgColor: { rgb: "4F81BD" } },
+                    border: {
+                        top: { style: "thin" },
+                        bottom: { style: "thin" },
+                        left: { style: "thin" },
+                        right: { style: "thin" }
+                    },
+                    alignment: { horizontal: "center" }
+                };
+            } else {
+                worksheet[cell_ref].s = {
+                    border: {
+                        top: { style: "thin" },
+                        bottom: { style: "thin" },
+                        left: { style: "thin" },
+                        right: { style: "thin" }
+                    },
+                    alignment: { horizontal: "center" },
+                    fill: { fgColor: { rgb: (R % 2 === 0 ? "D9EAD3" : "FFFFFF") } }
+                };
+            }
+        }
+    }
+
+    // Create a new workbook and append the worksheet
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'data');
+
+    // Convert the workbook to a Blob
+    var excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    var blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+
+    // Create a download link and trigger the download
+    var downloadLink = document.createElement("a");
+    var url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = filename ? filename + '.xlsx' : 'excel_data.xlsx';
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+// Event listener for export button
+document.getElementById('exportButton').addEventListener('click', function() {
+    exportTableToExcel('listTickets', 'tickets');
+});
+
+
+</script>
+
+	
+
+ <?php include('inc\footer.php');?>

@@ -67,7 +67,8 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 								<span class="glyphicon glyphicon-user"></span> <?php echo $ticketDetails['creater']; ?>
 							<?php } ?>
 							&nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span> 
-							<time class="comment-date" datetime="<?php echo date('Y-m-d H:i:s', strtotime($replies['date'])); ?>"><i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($replies['date'])); ?></time>							
+							<time class="comment-date" datetime="<?php echo date('Y-m-d H:i:s', strtotime($replies['date'])); ?>">
+							<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($replies['date'])); ?></time>							
 						</div>
 						<div class="panel-body">						
 							<div class="comment-post">
@@ -86,7 +87,8 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 			<article class="row">
 				<div class="col-md-10 col-sm-10">				
 					<div class="form-group">							
-						<textarea class="form-control" rows="5" id="message" name="message" placeholder="Enter your message..." required></textarea>	
+						<textarea class="form-control" rows="5" id="message" name="message" 
+						placeholder="Enter your message..." required></textarea>	
 					</div>				
 			</div>
 			</article>  
