@@ -84,7 +84,7 @@ $(document).ready(function() {
             },
             "columnDefs": [
                 {
-                    "targets": [6, 7, 8, 9, 10],
+                    "targets": [ 7, 8, 9, 10],
                     "orderable": false,
                 },
             ],

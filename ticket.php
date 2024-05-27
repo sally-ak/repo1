@@ -82,12 +82,11 @@ $user = $users->getUserInfo();
     </div>    
 </body>
 </html>
-	
 
 <script>
 function exportTableToExcel(tableID, filename = '') {
     var tableSelect = document.getElementById(tableID);
-    var columnsToExport = [0, 1, 2, 3, 4, 5, 6]; // Column indexes to export (0-based)
+    var columnsToExport = [0, 1, 2, 3, 4, 5, 6, 7]; // Column indexes to export (0-based)
 
     // Create a new table element to hold the filtered data
     var tempTable = document.createElement('table');
@@ -162,6 +161,8 @@ function exportTableToExcel(tableID, filename = '') {
 document.getElementById('exportButton').addEventListener('click', function() {
     exportTableToExcel('listTickets', 'tickets');
 });
+
+
 </script>
 
 
