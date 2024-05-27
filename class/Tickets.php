@@ -11,92 +11,7 @@ class Tickets extends Database {
         $this->dbConnect = $this->dbConnect();
     } 
 
-/* 	// Methode showTickets() which return ticket details and JSON data, to display tickets in table 
-	public function showTickets(){
-		$sqlWhere = '';	
-		//check if user is not admin
-		if(!isset($_SESSION["admin"])) {
-			$sqlWhere .= " WHERE t.user = '".$_SESSION["userid"]."' ";
-			//If a search value is provided, appends "and" to the SQL query.
-			if(!empty($_POST["search"]["value"])){
-				$sqlWhere .= " and ";
-			}
-		//Checks if the user is an admin and if a search value is provided.	
-		} else if(isset($_SESSION["admin"]) && !empty($_POST["search"]["value"])) {
-			$sqlWhere .= " WHERE ";
-		} 		
-		$time = new time; 
-		//select ticket details from the database tables  			 
-		$sqlQuery = "SELECT t.id, t.uniqid, t.title, t.init_msg as message, t.date, t.last_reply, t.resolved, u.name as creater, d.name as department, u.user_type, t.user, t.user_read, t.admin_read
-			FROM hd_tickets t 
-			LEFT JOIN hd_users u ON t.user = u.id 
-			LEFT JOIN hd_departments d ON t.department = d.id $sqlWhere ";
-		//append search conditions to the SQL query
-		if(!empty($_POST["search"]["value"])){
-			$sqlQuery .= ' (uniqid LIKE "%'.$_POST["search"]["value"].'%" ';					
-			$sqlQuery .= ' OR title LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR resolved LIKE "%'.$_POST["search"]["value"].'%" ';
-			$sqlQuery .= ' OR last_reply LIKE "%'.$_POST["search"]["value"].'%") ';			
-		}
-		//append order conditions to the SQL query
-		if(!empty($_POST["order"])){
-			$sqlQuery .= 'ORDER BY '.$_POST['order']['0']['column'].' '.$_POST['order']['0']['dir'].' ';
-		} else {
-			$sqlQuery .= 'ORDER BY t.id DESC ';
-		}
-		if($_POST["length"] != -1){
-			$sqlQuery .= 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
-		}	
-		//Executes the SQL query using the database connection.
-		$result = mysqli_query($this->dbConnect, $sqlQuery);
-		//Counts the number of rows returned by the SQL query.
-		$numRows = mysqli_num_rows($result);
-
-		$ticketData = array();	
-		//Iterates over each row returned by the SQL query.
-		while( $ticket = mysqli_fetch_assoc($result) ) {		
-			$ticketRows = array();			
-			$status = '';
-			if($ticket['resolved'] == 0)	{
-				$status = '<span class="label label-success">Open</span>';
-			} else if($ticket['resolved'] == 1) {
-				$status = '<span class="label label-danger">Closed</span>';
-			}	
-			$title = $ticket['title'];
-			if((isset($_SESSION["admin"]) && !$ticket['admin_read'] && $ticket['last_reply'] != $_SESSION["userid"]) || (!isset($_SESSION["admin"]) && !$ticket['user_read'] && $ticket['last_reply'] != $ticket['user'])) {
-				$title = $this->getRepliedTitle($ticket['title']);			
-			}
-			$disbaled = '';
-			if(!isset($_SESSION["admin"])) {
-				$disbaled = 'disabled';
-			}			
-			$ticketRows[] = $ticket['id'];
-			$ticketRows[] = $ticket['uniqid'];
-			$ticketRows[] = $title;
-			$ticketRows[] = $ticket['department'];
-			$ticketRows[] = $ticket['creater']; 			
-			$ticketRows[] = $time->ago($ticket['date']);
-			$ticketRows[] = $status;
-			$ticketRows[] = '<a href="view_ticket.php?id='.$ticket["uniqid"].'" class="btn btn-success btn-xs update">View Ticket</a>';	
-			$ticketRows[] = '<button type="button" name="update" id="'.$ticket["id"].'" class="btn btn-warning btn-xs update" '.$disbaled.'>Edit</button>';
-			$ticketRows[] = '<button type="button" name="delete" id="'.$ticket["id"].'" class="btn btn-danger btn-xs delete"  '.$disbaled.'>Close</button>';
-			$ticketData[] = $ticketRows;
-		}
-		// Array containing information for DataTables plugin
-		$output = array(
-			"draw"				=>	intval($_POST["draw"]),
-			"recordsTotal"  	=>  $numRows,
-			"recordsFiltered" 	=> 	$numRows,
-			"data"    			=> 	$ticketData
-		);
-		//Encodes the array to JSON and sends to client-side for processing by DataTables plugin.
-		echo json_encode($output);
-
-		    // Retrieve pagination parameters from the POST data
-			$start = isset($_POST['start']) ? intval($_POST['start']) : 0;
-			$length = isset($_POST['length']) ? intval($_POST['length']) : 10;
-	} */
-
+ 	// Methode showTickets() which return ticket details and JSON data, to display tickets in table 
 	public function showTickets($start, $length) {
 		$sqlWhere = '';
 		//check if user is not admin
@@ -194,24 +109,25 @@ class Tickets extends Database {
 	}  
 
     // Method to create a new ticket
-	public function createTicket() {   
-		//Checks if 'subject' and 'message' in POST request arenot empty.   
-		if(!empty($_POST['subject']) && !empty($_POST['message'])) { 
-			//Creates a new DateTime object to get the current date and time.               
+	public function createTicket() {  
+		print_r($_POST);
+
+		if(!empty($_POST['subject']) && !empty($_POST['message']) && !empty($_POST['requestor_name'])) { 
 			$date = new DateTime();
 			$date = $date->getTimestamp();
 			$uniqid = uniqid();                
-			$message = strip_tags($_POST['subject']);   
-			//insert a new record into the database table storing tickets           
-			$queryInsert = "INSERT INTO ".$this->ticketTable." (uniqid, user, title, init_msg, department, date, last_reply, user_read, admin_read, resolved) 
-			VALUES('".$uniqid."', '".$_SESSION["userid"]."', '".$_POST['subject']."', '".$message."', '".$_POST['department']."', '".$date."', '".$_SESSION["userid"]."', 0, 0, '".$_POST['status']."')";			
+			$message = strip_tags($_POST['subject']);
+			$message = strip_tags($_POST['message']);    
+			$requestorName = mysqli_real_escape_string($this->dbConnect, $_POST['requestor_name']);
+			$queryInsert = "INSERT INTO ".$this->ticketTable." (uniqid, user, title, init_msg, department, date, last_reply, user_read, admin_read, resolved, requestor_name) 
+			VALUES('".$uniqid."', '".$_SESSION["userid"]."', '".$_POST['subject']."', '".$message."', '".$_POST['department']."', '".$date."', '".$_SESSION["userid"]."', 0, 0, '".$_POST['status']."', '".$requestorName."')";			
 			mysqli_query($this->dbConnect, $queryInsert);			
 			echo 'success ' . $uniqid;
 		} else {
 			echo '<div class="alert error">Please fill in all of the fields.</div>';
 		}
 	}
-
+	
 	//ticket_action.php	// Method to get details of a specific ticket
 	public function getTicketDetails(){
 		if($_POST['ticketId']) {	

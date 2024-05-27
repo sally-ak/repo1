@@ -1,4 +1,32 @@
 $(document).ready(function() {
+        var dataTable = $('#listTickets').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "ticket_action.php",
+                type: "POST",
+                data: function(d) {
+                    d.action = 'showTickets';
+                    d.start = d.start || 0;
+                    d.length = d.length || 10;
+                }
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "uniqid" },
+                { "data": "title" },
+                { "data": "department" },
+                { "data": "creater" },
+                { "data": "date" },
+            //    { "data": "requestor_name" },   New column for requestor name
+                { "data": "status" },
+                { "data": "view" },
+                { "data": "edit" },
+                { "data": "delete" }
+            ]
+        });
+    
+
     $(document).on('submit','#ticketReply', function(event){
         event.preventDefault();
         $('#reply').attr('disabled','disabled');
@@ -111,6 +139,7 @@ $(document).ready(function() {
                 success:function(data){
                     $('#ticketModal').modal('show');
                     $('#ticketId').val(data.id);
+                    $('#name').val(data.requestor_name);
                     $('#subject').val(data.title);
                     $('#message').val(data.init_msg);
                     if(data.gender == '0') {

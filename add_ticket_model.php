@@ -1,4 +1,3 @@
-<!-- modal window  -->
 <div id="ticketModal" class="modal fade">
 	<div class="modal-dialog">
 		<form method="post" id="ticketForm">
@@ -8,13 +7,13 @@
 					<h4 class="modal-title"><i class="fa fa-plus"></i> Add Ticket</h4>
 				</div>
 				<div class="modal-body">
-					<div class="form-group"
+					<div class="form-group">
 						<label for="subject" class="control-label"><b>Subject</b></label>
 						<input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>			
 					</div>
 					<div class="form-group">
-						<label for="message" class="control-label">Name</label>							
-						<input class="form-control" id="name" name="name" placeholder="Requestor name" required></input>							
+						<label for="requestor_name" class="control-label">Requestor Name</label>							
+						<input class="form-control" id="requestor_name" name="requestor_name" placeholder="Requestor name" required>							
 					</div>	
 					<div class="form-group">
 						<label for="department" class="control-label">Department</label>							
@@ -22,13 +21,6 @@
 							<?php $tickets->getDepartments(); ?>
 						</select>						
 					</div>						
-					<!--  <div class="form-group">
-						<label for="user" class="control-label">Assigned to</label>							
-						<select id="user" name="user" class="form-control" placeholder="assigned to">					
-							<?php /* $users->getUsers(); */ ?>
-						</select>						
-					</div> 	 -->
-					
 					<div class="form-group">
 						<label for="message" class="control-label">Description</label>							
 						<textarea class="form-control" rows="5" id="message" name="message" placeholder="Describe the incident" required></textarea>							
