@@ -17,8 +17,8 @@ $(document).ready(function() {
                 { "data": "title" },
                 { "data": "department" },
                 { "data": "creater" },
+                { "data": "requestor_name" },  //  New column for requestor name
                 { "data": "date" },
-            //    { "data": "requestor_name" },   New column for requestor name
                 { "data": "status" },
                 { "data": "view" },
                 { "data": "edit" },
@@ -51,7 +51,6 @@ $(document).ready(function() {
         $('#save').val('Save Ticket');
     }); 
 
-	//
 	
 /* 		var empDataTable = $('#listTickets').DataTable({
 			'processing': true,
@@ -85,7 +84,7 @@ $(document).ready(function() {
             },
             "columnDefs": [
                 {
-                    "targets": [6, 7, 8, 9],
+                    "targets": [6, 7, 8, 9, 10],
                     "orderable": false,
                 },
             ],

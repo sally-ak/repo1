@@ -27,7 +27,7 @@ class Tickets extends Database {
 		}
 		$time = new time;
 		//select ticket details from the database tables  			 
-		$sqlQuery = "SELECT t.id, t.uniqid, t.title, t.init_msg as message, t.date, t.last_reply, t.resolved, u.name as creater, d.name as department, u.user_type, t.user, t.user_read, t.admin_read
+		$sqlQuery = "SELECT t.id, t.uniqid, t.title, t.init_msg as message, t.date, t.last_reply, t.resolved, u.name as creater, d.name as department, u.user_type, t.user, t.user_read, t.admin_read, t.requestor_name
 				FROM hd_tickets t 
 				LEFT JOIN hd_users u ON t.user = u.id 
 				LEFT JOIN hd_departments d ON t.department = d.id ";
@@ -83,6 +83,7 @@ class Tickets extends Database {
 			$ticketRows[] = $title;
 			$ticketRows[] = $ticket['department'];
 			$ticketRows[] = $ticket['creater'];
+			$ticketRows[] = $ticket['requestor_name']; // Add this line
 			$ticketRows[] = $time->ago($ticket['date']);
 			$ticketRows[] = $status;
 			$ticketRows[] = '<a href="view_ticket.php?id=' . $ticket["uniqid"] . '" class="btn btn-success btn-xs update">View Ticket</a>';
