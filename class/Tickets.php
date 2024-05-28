@@ -110,7 +110,7 @@ class Tickets extends Database {
 	}  
 
     // Method to create a new ticket
-	public function createTicket() {  
+ 	public function createTicket() {  
 		print_r($_POST);
 
 		if(!empty($_POST['subject']) && !empty($_POST['message']) && !empty($_POST['requestor_name'])) { 
@@ -127,7 +127,9 @@ class Tickets extends Database {
 		} else {
 			echo '<div class="alert error">Please fill in all of the fields.</div>';
 		}
-	}
+	} 
+	
+
 	
 	//ticket_action.php	// Method to get details of a specific ticket
 	public function getTicketDetails(){
@@ -142,14 +144,39 @@ class Tickets extends Database {
 	} 
 	
 	//ticket_action.php	// Method to update details of a ticket
-	public function updateTicket() {
+/* 	public function updateTicket() {
 		if($_POST['ticketId']) {	
 			$updateQuery = "UPDATE ".$this->ticketTable." 
 			SET title = '".$_POST["subject"]."', department = '".$_POST["department"]."', init_msg = '".$_POST["message"]."', resolved = '".$_POST["status"]."'
 			WHERE id ='".$_POST["ticketId"]."'";
 			$isUpdated = mysqli_query($this->dbConnect, $updateQuery);		
 		}	
-	}	
+	} */	
+
+	// Method to update details of a ticket
+public function updateTicket() {
+    if($_POST['ticketId']) {
+        $requestorName = mysqli_real_escape_string($this->dbConnect, $_POST['requestor_name']);
+        $updateQuery = "UPDATE ".$this->ticketTable." 
+                        SET title = '".$_POST["subject"]."', 
+                            department = '".$_POST["department"]."', 
+                            init_msg = '".$_POST["message"]."', 
+                            resolved = '".$_POST["status"]."',
+                            requestor_name = '".$requestorName."'
+                        WHERE id ='".$_POST["ticketId"]."'";
+        $isUpdated = mysqli_query($this->dbConnect, $updateQuery);
+
+        if ($isUpdated) {
+            echo "Ticket updated successfully.";
+        } else {
+            echo "Failed to update the ticket.";
+        }
+    } else {
+        echo "Ticket ID is missing.";
+    }
+}
+
+
 		//ticket_action.php	// Method to mark a ticket as resolved or closed	
 	public function closeTicket(){
 		if($_POST["ticketId"]) {
@@ -180,7 +207,7 @@ class Tickets extends Database {
         return $tickets;        
     } 
 	//ticket_action.php	// Method to save a reply message to a ticket
-	public function saveTicketReplies () {
+ 	public function saveTicketReplies () {
 		if($_POST['message']) {
 			$date = new DateTime();
 			$date = $date->getTimestamp();
@@ -192,7 +219,9 @@ class Tickets extends Database {
 				WHERE id = '".$_POST['ticketId']."'";				
 			mysqli_query($this->dbConnect, $updateTicket);
 		} 
-	}
+	} 
+	
+
 	// Method to get replies associated with a ticket	
 	public function getTicketReplies($id) {  		
 		$sqlQuery = "SELECT r.id, r.text as message, r.date, u.name as creater, d.name as department, u.user_type  

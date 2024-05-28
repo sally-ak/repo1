@@ -45,29 +45,30 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 					</div>
 					<div class="panel-heading right">
 						<span class="glyphicon glyphicon-time"></span> 
-						<time class="comment-date" datetime="<?php echo date('Y-m-d H:i:s', strtotime($ticketDetails['date'])); ?>">
+						<time class="comment-date" datetime="?php echo date('Y-m-d H:i:s', strtotime($ticketDetails['date'])); ?>">
 						<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($ticketDetails['date'])); ?>
 						</time>
 						&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span> <?php echo $ticketDetails['creater']; ?>
-						&nbsp;&nbsp;<!-- <span class="glyphicon glyphicon-briefcase"> --></span> <!--< ?php  echo $ticketDetails['department']; ? > -->
+						&nbsp;&nbsp; <span class="glyphicon glyphicon-briefcase"></span> <?php  echo $ticketDetails['creater']; ?> 
 					
-					</div>
+					</div> 
+
 				</div>			 
 			</div>
 		</article>		
 		
 		<?php foreach ($ticketReplies as $replies) { ?>		
-			<article class="row">
+			 <article class="row">
 				<div class="col-md-10 col-sm-10">
 					<div class="panel panel-default arrow right">
 						<div class="panel-heading">
 							<?php if($replies['user_type'] == 'admin') { ?>							
-								<span class="glyphicon glyphicon-user"></span> <!--?php echo $ticketDetails['department']; ?>-->
+ 								<span class="glyphicon glyphicon-user"></span> Admin
 							<?php } else { ?>
 								<span class="glyphicon glyphicon-user"></span> <?php echo $ticketDetails['creater']; ?>
 							<?php } ?>
 							&nbsp;&nbsp;<span class="glyphicon glyphicon-time"></span> 
-							<time class="comment-date" datetime="<?php echo date('Y-m-d H:i:s', strtotime($replies['date'])); ?>">
+							<time class="comment-date" datetime="?php echo date('Y-m-d H:i:s', strtotime($replies['date'])); ?>">
 							<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($replies['date'])); ?></time>							
 						</div>
 						<div class="panel-body">						
@@ -80,7 +81,7 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 						
 					</div>
 				</div>            
-			</article> 		
+			</article> 
 		<?php } ?>
 		
 		<form method="post" id="ticketReply">
