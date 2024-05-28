@@ -43,14 +43,16 @@ $tickets->updateTicketReadStatus($ticketDetails['id']);
 						</p>
 						</div>                 
 					</div>
+					<?php
+						// Check if the date is a valid timestamp or needs conversion
+						$date = is_numeric($ticketDetails['date']) ? $ticketDetails['date'] : strtotime($ticketDetails['date']);
+					?>
 					<div class="panel-heading right">
 						<span class="glyphicon glyphicon-time"></span> 
-						<time class="comment-date">
-						<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', strtotime($ticketDetails['date'])); ?>
+						<time class="comment-date" datetime="<?php echo date('Y-m-d H:i:s', $date); ?>">
+						<i class="fa fa-clock-o"></i> <?php echo date('d/m/Y H:i', $date); ?>
 						</time>
-						&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span> <?php echo $ticketDetails['creater']; ?>
-<!-- 						&nbsp;&nbsp; <span class="glyphicon glyphicon-briefcase"></span> ?php  echo $ticketDetails['creater']; ?> 
- -->					
+						&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span> <?php echo $ticketDetails['creater']; ?>					
 					</div> 
 
 				</div>			 
