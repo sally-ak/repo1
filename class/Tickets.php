@@ -222,7 +222,7 @@ public function updateTicket() {
 	} 
 	
 
-	// Method to get replies associated with a ticket	
+	/* // Method to get replies associated with a ticket	
 	public function getTicketReplies($id) {  		
 		$sqlQuery = "SELECT r.id, r.text as message, r.date, u.name as creater, d.name as department, u.user_type  
 			FROM ".$this->ticketRepliesTable." r
@@ -237,6 +237,26 @@ public function updateTicket() {
 		}
         return $data;
     }
+ */
+			// Method to get replies associated with a ticket  
+public function getTicketReplies($id) {          
+    $sqlQuery = "SELECT r.id, r.text as message, r.date, u.name as creater, d.name as department, u.user_type  
+        FROM ".$this->ticketRepliesTable." r
+        LEFT JOIN ".$this->ticketTable." t ON r.ticket_id = t.id
+        LEFT JOIN hd_users u ON r.user = u.id 
+        LEFT JOIN hd_departments d ON t.department = d.id 
+        WHERE r.ticket_id = '".$id."'";  
+    $result = mysqli_query($this->dbConnect, $sqlQuery);
+
+    $data = array();
+    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+        // Convert Unix timestamp to a human-readable date format
+        $row['date'] = date('Y-m-d H:i:s', $row['date']);
+        $data[] = $row;            
+    }
+    return $data;
+}
+
 	
 	// Method to update read status of a ticket 
 	public function updateTicketReadStatus($ticketId) {
