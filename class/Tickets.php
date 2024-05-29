@@ -207,19 +207,34 @@ public function updateTicket() {
         return $tickets;        
     } 
 	//ticket_action.php	// Method to save a reply message to a ticket
- 	public function saveTicketReplies () {
-		if($_POST['message']) {
+	public function saveTicketReplies() {
+		if (!empty($_POST['message']) && !empty($_POST['ticketId'])) {
 			$date = new DateTime();
-			$date = $date->getTimestamp();
+			$timestamp = $date->getTimestamp();
+			$message = mysqli_real_escape_string($this->dbConnect, $_POST['message']);
+			$ticketId = mysqli_real_escape_string($this->dbConnect, $_POST['ticketId']);
+			
 			$queryInsert = "INSERT INTO ".$this->ticketRepliesTable." (user, text, ticket_id, date) 
-				VALUES('".$_SESSION["userid"]."', '".$_POST['message']."', '".$_POST['ticketId']."', '".$date."')";
-			mysqli_query($this->dbConnect, $queryInsert);				
-			$updateTicket = "UPDATE ".$this->ticketTable." 
-				SET last_reply = '".$_SESSION["userid"]."', user_read = '0', admin_read = '0' 
-				WHERE id = '".$_POST['ticketId']."'";				
-			mysqli_query($this->dbConnect, $updateTicket);
-		} 
-	} 
+							VALUES('".$_SESSION["userid"]."', '".$message."', '".$ticketId."', '".$timestamp."')";
+			
+			if (mysqli_query($this->dbConnect, $queryInsert)) {
+				$updateTicket = "UPDATE ".$this->ticketTable." 
+								 SET last_reply = '".$_SESSION["userid"]."', user_read = '0', admin_read = '0' 
+								 WHERE id = '".$ticketId."'";
+				
+				if (mysqli_query($this->dbConnect, $updateTicket)) {
+					echo 'Reply posted successfully.';
+				} else {
+					echo 'Failed to update ticket read status.';
+				}
+			} else {
+				echo 'Failed to insert reply.';
+			}
+		} else {
+			echo 'Message or Ticket ID missing.';
+		}
+	}
+	 
 	
 
 	/* // Method to get replies associated with a ticket	

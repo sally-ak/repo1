@@ -27,7 +27,7 @@ $(document).ready(function() {
         });
     
 
-    $(document).on('submit','#ticketReply', function(event){
+/*     $(document).on('submit','#ticketReply', function(event){
         event.preventDefault();
         $('#reply').attr('disabled','disabled');
         var formData = $(this).serialize();
@@ -41,7 +41,28 @@ $(document).ready(function() {
                 location.reload();
             }
         })
-    });     
+    });   */
+    
+    $(document).on('submit','#ticketReply', function(event){
+        event.preventDefault();
+        $('#reply').attr('disabled','disabled');
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "ticket_action.php",
+            method: "POST",
+            data: formData,
+            success: function(data){
+                console.log("Response from server: ", data);  // Add this line to check server response
+                $('#ticketReply')[0].reset();
+                $('#reply').attr('disabled', false);
+                location.reload();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.error("Error: ", textStatus, errorThrown);  // Add this line to log errors
+            }
+        });
+    });
+    
     
     $('#createTicket').click(function(){
         $('#ticketModal').modal('show');
