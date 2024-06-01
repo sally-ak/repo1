@@ -22,12 +22,21 @@ class Time extends Database {
     
 
     private $dbConnect = false;
-	public function __construct(){		
+/* 	public function __construct(){		
         $this->dbConnect = $this->dbConnect();
     }	
     public function ago($time) {
         return date('d/m/Y H:i', $time);
-    }       
+    }  */   
+    
+    public function ago($time) {
+        if (!is_numeric($time) || (int)$time <= 0) {
+            // If $time is not a valid timestamp or is empty, return an appropriate message or handle it as needed
+            return 'Invalid timestamp';
+        }
+        return date('d/m/Y H:i', (int)$time);
+    }
+    
 
 
 }
